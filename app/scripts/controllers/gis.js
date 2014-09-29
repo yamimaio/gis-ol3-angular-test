@@ -7,87 +7,63 @@
  * # GisCtrl
  * Controller of the gisApp
  */
-angular.module('gisApp').controller('GisCtrl', function ($scope, Restangular,
-    olMap, olLayer) {
+angular.module('gisApp').controller('GisCtrl', ['$scope', 'ol3.map',
+    'ol3.layer', 'Sur.Layer', 'Sur.Group', 'Sur.LayerTree', function ($scope,
+        olMap, olLayer, SurLayer, SurGroup, SurLayerTree) {
 
-    $scope.map = olMap.create();
+        $scope.map = olMap.create();
 
-    $scope.layers = [];
+        $scope.layers = [];
 
-    $scope.createLayer = function (layer) {
-        return olLayer.create(layer, olMap.getProjection(
-            $scope.map), olMap.getExtent($scope.map));
-    };
+        $scope.layerTree = "";
 
-    $scope.loadLayers = function () {
-        Restangular.setDefaultHeaders({
-            'Content-Type': 'application/json'
-        });
-
-        Restangular.setDefaultHttpFields({
-            withCredentials: true
-        });
-
-        // set only for get method
-        Restangular.requestParams.get = {
-            'fields[0]': 'servicio',
-            'fields[1]': 'groupId',
-            'fields[2]': 'url',
-            'fields[3]': 'serviceName'
+        var createLayer = function (layer) {
+            if (layer.servicio != 'Google') {
+                var olLayer = SurLayer.createLayer(layer,
+                    $scope.map);
+            }
+            return olLayer;
         };
 
-        Restangular.addResponseInterceptor(
-            function (data, operation, what, url, response, deferred) {
-                var extractedData;
-                var routing = {
-                    layers: 'items',
-                    parents: 'parents'
-                };
+        var addLayerToGroup = function (layer, parents) {
+            olLayer.addLayerToGroup(layer, parents, $scope.map);
+        };
 
-                // .. to look for getList operations
-                if (operation === "getList") {
-                    extractedData = data[routing[what]];
-                } else {
-                    extractedData = data;
-                }
-                return extractedData;
+        var createAndAddLayerToGroup = function (layer, index) {
+            var olLayer = createLayer(layer);
+            if (olLayer) {
+                $scope.layers[index].olLayer = olLayer;
+                $scope.layers[index].active = false;
+                SurGroup.getParents(layer.groupId)
+                    .then(function (parents) {
+                        $scope.layers[index].parents = parents;
+                        return parents;
+                    })
+                    .then(function (parents) {
+                        addLayerToGroup(
+                            $scope.layers[index].olLayer, parents);
+                    });
             }
-        );
+        };
 
-        Restangular.setBaseUrl(
-            'http://yamilamaio.gis.suremptec.com.ar/2/rest/1.0');
-
-        var layers = Restangular.all('layers');
-
-
-        // This will query/layers and return a promise.
-        layers.getList().then(function (layers) {
-
-            $scope.layers = layers;
-
-            $scope.layers.forEach(function (layer) {
-                //creo la capa OL y la agrego al mapa
-                if (layer.servicio != 'Google') {
-                    var olLayer = $scope.createLayer(layer);
-                    //$scope.map.addLayer(olLayer);
-                    olLayer.setVisible(false);
-                    $scope.map.getLayers().push(olLayer);
-                }
-
-                layer.groups = Restangular.one('groups', layer.groupId)
-                    .getList('parents').then(function (parents) {
-                    // console.log(parents);
+        $scope.loadLayers = function () {
+            SurLayer.getLayers()
+                .then(function (layers) {
+                    $scope.layers = layers;
+                    return layers;
+                })
+                .then(function (layers) {
+                    layers.forEach(createAndAddLayerToGroup);
                 });
-            });
+        };
 
-            console.log($scope.map);
-        });
-    };
+        $scope.toogleLayerVisibility = function (layer) {
+            layer.active = !layer.active;
+            olLayer.toggleVisible(layer.olLayer);
+        };
 
-    $scope.active = function (layer) {
-        console.log(layer.active);
-        var olLayer = olMap.findBy($scope.map.getLayerGroup(), 'serviceName',
-            layer.serviceName);
-        olLayer.setVisible(layer.active);
-    };
-});
+        $scope.buildLayerTreeFromMap = function () {
+            $scope.layerTree = SurLayerTree.build($scope.map);
+        };
+
+    }]);

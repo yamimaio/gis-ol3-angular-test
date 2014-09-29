@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 layertree">
+        <div class="col-md-4 layertree">
             <!-- Fetch Layers -->
             <button class="btn btn-primary" ng-click="loadLayers()">
                 Cargar Capas
@@ -9,12 +9,20 @@
             <!-- Todos list -->
             <ul class="layertree" ng-model="layers">
                 <li class="input-group" ng-repeat="layer in layers">
-                    <input type="checkbox" ng-model="layer.active" ng-change="active(layer)">
+                    <i class="glyphicon " ng-class="{'glyphicon-unchecked':  !layer.active,
+                        'glyphicon-check': layer.active}" ng-model="layer.active" ng-click="toogleLayerVisibility(layer)"></i>
                     {{layer.name}}
+                    <br />
                 </li>
             </ul>
+
+            <button class="btn btn-primary" ng-click="buildLayerTreeFromMap()">
+                Render LayerTree
+            </button>
+            <div id="layertree" class="tree" ng-bind-html="layerTree">
+            </div>
         </div>
-        <div class="col-md-9 map">
+        <div class="col-md-8 map">
             <div id="map"></div>
         </div>
     </div>
