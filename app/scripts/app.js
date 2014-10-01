@@ -16,6 +16,7 @@ angular.module('gisApp', [
     'ngSanitize',
     'ngTouch',
     'ui.sortable',
+    'ui.bootstrap-slider',
     'restangular',
     'ol3',
     'Sur'

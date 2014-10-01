@@ -169,6 +169,7 @@ angular.module('ol3').service('ol3.layer', ['ol3.source', 'util', function (
                 //defino a esta capa como el hijo de la siguiente interación
                 child = olGroupLayer;
             }
+            return child;
         };
     }]);
 

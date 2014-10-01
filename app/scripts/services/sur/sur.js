@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @ngdoc module
- * @name sur
+ * @ngdoc overview
+ * @name Sur
  * @description
  * # sur
  * Sur Module

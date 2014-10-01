@@ -6,13 +6,14 @@
             <file>file:/C:/xampp/htdocs/gis/app/scripts/services/ol3/olsource.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/controllers/gis.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/styles/main.css</file>
-            <file>file:/C:/xampp/htdocs/gis/app/scripts/services/sur/layertree.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/app.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/services/sur/group.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/services/ol3/olmap.js</file>
+            <file>file:/C:/xampp/htdocs/gis/app/scripts/services/sur/layer.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/services/sur/sur.js</file>
             <file>file:/C:/xampp/htdocs/gis/app/views/gis.html</file>
             <file>file:/C:/xampp/htdocs/gis/app/scripts/services/ol3/ollayer.js</file>
+            <file>file:/C:/xampp/htdocs/gis/app/scripts/services/ol3/ol3.js</file>
         </group>
     </open-files>
 </project-private>

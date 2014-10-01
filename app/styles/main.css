@@ -66,14 +66,14 @@ body {
     right:auto
 }
 .tree li::before {
-    border-left:1px solid #999;
+    border-left:1px solid #999 !important;
     bottom:50px;
     height:100%;
     top:0;
     width:1px
 }
 .tree li::after {
-    border-top:1px solid #999;
+    border-top:1px solid #999 !important;
     height:20px;
     top:25px;
     width:25px
@@ -99,4 +99,18 @@ body {
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
     border-radius:5px;
+}
+
+.slider.slider-horizontal {
+    /*margin-left: 20px;*/
+    width: 80px;
+}
+
+.slider-handle {
+    width: 15px;
+    height: 15px;
+}
+
+.slider.slider-horizontal .slider-handle {
+    margin-top: -3px;
 }

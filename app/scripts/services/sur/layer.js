@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc service
- * @name sur.Layer
+ * @name Sur.Layer
  * @description
  * # layer
  * Service in the Sur.
