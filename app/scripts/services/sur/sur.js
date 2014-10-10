@@ -2,9 +2,13 @@
 
 /**
  * @ngdoc overview
- * @name Sur
+ * @name sur
  * @description
- * # sur
- * Sur Module
+ * # Sur Module
+ *
+ * Modulo de funcionalidad  provista por Sur.
+ *
+ * @requires restangular
+ * @requires ol3
  */
-angular.module('Sur', ['restangular', 'ol3']);
+angular.module('sur', ['restangular', 'ol3']);

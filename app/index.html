@@ -27,9 +27,7 @@
         <div class="container-fluid">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
-                    <li class="active"><a ng-href="#">Home</a></li>
-                    <li><a ng-href="#/about">About</a></li>
-                    <li><a ng-href="#/gis">Gis</a></li>
+                    <li class="active"><a ng-href="#">Gis</a></li>
                 </ul>
                 <h3 class="text-muted">gis</h3>
             </div>
@@ -104,16 +102,18 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/services/ol3/ol3.js"></script>
-        <script src="scripts/services/ol3/olmap.js"></script>
-        <script src="scripts/services/ol3/ollayer.js"></script>
-        <script src="scripts/services/ol3/olsource.js"></script>
+        <script src="scripts/services/ol3/map.js"></script>
+        <script src="scripts/services/ol3/layer.js"></script>
+        <script src="scripts/services/ol3/source.js"></script>
         <script src="scripts/app.js"></script>
-        <script src="scripts/services/util.js"></script>
+        <script src="scripts/services/util/util.js"></script>
         <script src="scripts/services/sur/sur.js"></script>
+        <script src="scripts/services/util/string.js"></script>
+        <script src="scripts/services/util/collection.js"></script>
         <script src="scripts/services/sur/layer.js"></script>
         <script src="scripts/services/sur/group.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/services/sur/layertree.js"></script>
+        <script src="scripts/services/sur/map.js"></script>
         <script src="scripts/controllers/gis.js"></script>
         <!-- endbuild -->
     </body>

@@ -4,9 +4,18 @@
  * @ngdoc overview
  * @name gisApp
  * @description
- * # gisApp
+ * # SuriWebGis
+ *  Sistema desarrollado por Sur Emprendimientos Tecnológicos.
  *
- * Main module of the application.
+ *  #Dependencias externas
+ *  Requiere que Angular esté instalado, así como las siguientes dependencias
+ *  externas: ngAnimate, ngCookies, ngResource, ngRoute, ngSanitize, ngTouch,
+ *  ui.sortable, ui.bootstrap-slider, restangular.
+ *
+ * @author Sur Emprendimientos Tecnológicos 2014.
+ * @copyright Sur Emprendimientos Tecnológicos 2014.
+ * @requires ol3
+ * @requires sur
  */
 angular.module('gisApp', [
     'ngAnimate',
@@ -18,20 +27,13 @@ angular.module('gisApp', [
     'ui.sortable',
     'ui.bootstrap-slider',
     'restangular',
+    'util',
     'ol3',
-    'Sur'
-]).config(function ($routeProvider, RestangularProvider) {
+    'sur'
+]).config(function($routeProvider, RestangularProvider) {
     //configura routers
     $routeProvider
         .when('/', {
-            templateUrl: 'views/main.html',
-            controller: 'MainCtrl'
-        })
-        .when('/about', {
-            templateUrl: 'views/about.html',
-            controller: 'AboutCtrl'
-        })
-        .when('/gis', {
             templateUrl: 'views/gis.html',
             controller: 'GisCtrl'
         })
@@ -44,11 +46,13 @@ angular.module('gisApp', [
         'Content-Type': 'application/json'
     });
 
+    //configuro CORS
     RestangularProvider.setDefaultHttpFields({
         withCredentials: true
     });
 
     // set only for get method
+    //pido campos adicionales en la respuesta de la lista
     RestangularProvider.requestParams.get = {
         'fields[0]': 'servicio',
         'fields[1]': 'groupId',
@@ -56,8 +60,9 @@ angular.module('gisApp', [
         'fields[3]': 'serviceName'
     };
 
+    //parseado de la respuesta de un pedido de colección según el recurso
     RestangularProvider.addResponseInterceptor(
-        function (data, operation, what, url, response, deferred) {
+        function(data, operation, what) {
             var extractedData;
             var routing = {
                 layers: 'items',
@@ -65,7 +70,7 @@ angular.module('gisApp', [
             };
 
             // .. to look for getList operations
-            if (operation === "getList") {
+            if (operation === 'getList') {
                 extractedData = data[routing[what]];
             } else {
                 extractedData = data;
@@ -74,6 +79,7 @@ angular.module('gisApp', [
         }
     );
 
+    //seteo url base del servidor
     RestangularProvider.setBaseUrl(
         'http://developers.desa.suriwebgis.com.ar/valentin/htdocs/2/rest/1.0/');
 });

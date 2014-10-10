@@ -2,17 +2,28 @@
 
 /**
  * @ngdoc service
- * @name Sur.Group
+ * @name sur.group
  * @description
- * # group
- * Service in the Sur.
+ *  # Group
+ *  Servicio para operar sobre grupos.
+ * @requires Restangular
  */
-angular.module('Sur').service('Sur.Group', ['Restangular', function (
-        Restangular) {
-        // AngularJS will instantiate a singleton by calling "new" on this function
+angular.module('sur').service('sur.group',
+    ['Restangular', function(Restangular) {
 
-        this.getParents = function (groupId) {
+        /**
+         * @ngdoc method
+         * @name sur.group.method:getParents
+         * @description Obtiene la lista de capas del servidor.
+         * @methodOf sur.group
+         * @param {number} groupId Id del grupo para el que se quieren obtener
+         *  los padres.
+         * @returns {promise} Promise que obtiene la lista de padres del grupo.
+         */
+        this.getParents = function(groupId) {
+            //generamos el objeto restangular que trae un grupo en particular
+            //y obtenemos acto seguido la promesa de obtener los padres.
             return Restangular.one('groups', groupId).getList('parents');
         };
     }
-]);
+    ]);

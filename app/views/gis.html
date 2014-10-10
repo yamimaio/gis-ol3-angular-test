@@ -1,46 +1,48 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4 layertree">
-            <!-- Fetch Layers -->
-            <button class="btn btn-primary" ng-click="loadLayers()">
-                Cargar Capas
-            </button>
 
             <script type="text/ng-template" id="layertree-nodes">
-                <span 
-                    ng-attr-title="{{
+                <span
+                        ng-attr-title="{{
                         isGroupNode(layer)
                             ? (layer.expanded ? 'Collapse this branch' : 'Expand this branch')
                             : 'Layer'
                         }}"
-                    ng-click="layer.expanded = !layer.expanded">
+                        ng-click="layer.expanded = !layer.expanded">
                     <i ng-if="isGroupNode(layer)"
-                        ng-class="{'glyphicon-plus': !layer.expanded, 'glyphicon-minus': layer.expanded}"></i>
+                       ng-class="{'glyphicon-plus': !layer.expanded, 'glyphicon-minus': layer.expanded}"></i>
                     <i class="glyphicon glyphicon-file"></i>
                     <i class="glyphicon"
-                        ng-class="{'glyphicon-unchecked': !layer.getVisible(), 'glyphicon-check': layer.getVisible()}"
-                        ng-click="toogleLayerVisibility(layer)">
+                       ng-class="{'glyphicon-unchecked': !layer.visible, 'glyphicon-check': layer.visible}"
+                       ng-click="toogleLayerVisibility(layer)">
                     </i>
-                    {{layer.get('name')}}
+                    {{layer.name}}
                 </span>
-                <slider ng-model="layer.opacity" min="0" max="1" step="0.1" value="1" tooltip="hide"></slider>
-                <ul ng-if="isGroupNode(layer)" ng-show="layer.expanded">
-                    <li 
-                        ng-repeat="layer in layer.getLayers().getArray()"
+                <slider ng-model="layer.opacity" min="0" max="1" step="0.1"
+                        value="1" tooltip="hide"
+                        ng-change="changeOpacity(layer)"></slider>
+                <ul ng-model="layer.items" ng-if="isGroupNode(layer)"
+                    ng-show="layer.expanded" class="group"
+                    ui-sortable="sortableOptions">
+                    <li ng-repeat="layer in layer.items"
                         ng-include="'layertree-nodes'"
                         ng-class="{'parent_li': isGroupNode(layer) }">
                     </li>
                 </ul>
             </script>
 
-            <div id="layertree" class="tree">              
-                <ul ng-model="map">
-                    <li ng-include="'layertree-nodes'" ng-init="layer = map.getLayerGroup()" class="parent_li"></li>
+            <div id="layertree" class="tree">
+                <ul ng-model="layertree.root"
+                    class="group">
+                    <li ng-include="'layertree-nodes'"
+                        ng-init="layer = layertree.root">
+                    </li>
                 </ul>
             </div>
         </div>
 
-        <div class="col-md-8 map">
+        <div class="col-md-8 sur_map">
             <div id="map"></div>
         </div>
     </div>
